@@ -1,0 +1,32 @@
+/project_root
+│-- app/
+│ ├── Http/
+│ │ ├── Controllers/
+│ │ │ ├── TourController.php
+│ │ │ ├── BookingController.php
+│ │ │ └── ReviewController.php
+│-- resources/views/
+│ ├── home.blade.php
+│ ├── booking.blade.php
+│ ├── admin.blade.php
+│-- routes/web.php
+│-- database/migrations/
+│-- public/css, js, images/
+ Sample Route (web.php)
+Route::get('/', [TourController::class, 'index']);
+Route::get('/book/{id}', [BookingController::class, 
+'create']);
+Route::post('/book', [BookingController::class, 
+'store']);
+Route::post('/review', [ReviewController::class, 
+'store'])
+Booking Controller (Snippet)
+public function store(Request $request) {
+ $booking = new Booking();
+ $booking->user_id = Auth::id();
+ $booking->tour_id = $request->tour_id;
+ $booking->payment_status = 'Simulated';
+ $booking->save();
+ return redirect('/dashboard')->with('success', 
+'Tour booked successfully!');
+}
